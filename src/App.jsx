@@ -1,5 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useState, createContext, useContext } from 'react';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 import Home from './pages/Home';
 import ClientLayout from './pages/client/ClientLayout';
 import ClientDashboard from './pages/client/Dashboard';
@@ -21,18 +24,54 @@ export function useApp() {
   return useContext(AppContext);
 }
 
-export default function App() {
-  const [user, setUser] = useState(null); // { role: 'client'|'driver'|'dispatcher', name }
+function ProtectedRoute({ children }) {
+  const { currentUser, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-surface dark:bg-surface-dark">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm text-gray-400">Загрузка...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!currentUser) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
+}
+
+function AppRoutes() {
+  const { currentUser, userProfile } = useAuth();
   const [darkMode, setDarkMode] = useState(false);
 
+  const user = currentUser && userProfile
+    ? { role: userProfile.role, name: userProfile.name }
+    : null;
+
   return (
-    <AppContext.Provider value={{ user, setUser, darkMode, setDarkMode }}>
+    <AppContext.Provider value={{ user, darkMode, setDarkMode }}>
       <div className={darkMode ? 'dark' : ''}>
         <div className="min-h-screen bg-surface dark:bg-surface-dark transition-colors">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/login" element={currentUser ? <Navigate to="/" /> : <Login />} />
+            <Route path="/register" element={currentUser ? <Navigate to="/" /> : <Register />} />
 
-            <Route path="/client" element={<ClientLayout />}>
+            <Route path="/" element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/client" element={
+              <ProtectedRoute>
+                <ClientLayout />
+              </ProtectedRoute>
+            }>
               <Route index element={<ClientDashboard />} />
               <Route path="calculator" element={<ClientCalculator />} />
               <Route path="order" element={<ClientOrder />} />
@@ -40,13 +79,21 @@ export default function App() {
               <Route path="orders" element={<ClientOrders />} />
             </Route>
 
-            <Route path="/driver" element={<DriverLayout />}>
+            <Route path="/driver" element={
+              <ProtectedRoute>
+                <DriverLayout />
+              </ProtectedRoute>
+            }>
               <Route index element={<DriverFeed />} />
               <Route path="active" element={<DriverActiveRide />} />
               <Route path="earnings" element={<DriverEarnings />} />
             </Route>
 
-            <Route path="/dispatcher" element={<DispatcherLayout />}>
+            <Route path="/dispatcher" element={
+              <ProtectedRoute>
+                <DispatcherLayout />
+              </ProtectedRoute>
+            }>
               <Route index element={<DispatcherDashboard />} />
             </Route>
 
@@ -55,5 +102,13 @@ export default function App() {
         </div>
       </div>
     </AppContext.Provider>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
   );
 }

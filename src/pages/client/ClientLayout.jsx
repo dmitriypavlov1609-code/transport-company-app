@@ -1,4 +1,5 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const NAV_ITEMS = [
   { path: '/client', label: 'Главная', end: true, icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
@@ -9,18 +10,35 @@ const NAV_ITEMS = [
 
 export default function ClientLayout() {
   const navigate = useNavigate();
+  const { logout, userProfile } = useAuth();
+
+  async function handleLogout() {
+    await logout();
+    navigate('/login');
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-surface dark:bg-surface-dark pb-16">
       <header className="sticky top-0 z-40 bg-white/95 dark:bg-surface-card-dark/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700/50">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
-          <button onClick={() => navigate('/')} className="text-gray-400 hover:text-gray-600 transition-colors">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={() => navigate('/')} className="text-gray-400 hover:text-gray-600 transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            {userProfile?.name && (
+              <span className="text-xs text-gray-400 hidden sm:inline">{userProfile.name}</span>
+            )}
+          </div>
           <h1 className="text-sm font-semibold text-gray-900 dark:text-white tracking-tight">TransPort Pro</h1>
-          <button className="relative text-gray-400 hover:text-gray-600 transition-colors">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent rounded-full text-[10px] text-white flex items-center justify-center font-bold">2</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button className="relative text-gray-400 hover:text-gray-600 transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent rounded-full text-[10px] text-white flex items-center justify-center font-bold">2</span>
+            </button>
+            <button onClick={handleLogout} className="text-gray-400 hover:text-red-500 transition-colors" title="Выйти">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </button>
+          </div>
         </div>
       </header>
 

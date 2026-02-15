@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useApp } from '../App';
+import { useAuth } from '../context/AuthContext';
 
 const ROLES = [
   {
@@ -30,12 +31,16 @@ const ROLES = [
 
 export default function Home() {
   const navigate = useNavigate();
-  const { setUser, darkMode, setDarkMode } = useApp();
+  const { darkMode, setDarkMode } = useApp();
+  const { userProfile } = useAuth();
 
-  const selectRole = (role) => {
-    setUser({ role: role.id, name: 'Demo User' });
-    navigate(role.path);
-  };
+  // If user has a role, redirect to their dashboard
+  if (userProfile?.role) {
+    const roleData = ROLES.find(r => r.id === userProfile.role);
+    if (roleData) {
+      return <Navigate to={roleData.path} />;
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-surface dark:bg-surface-dark">
@@ -74,7 +79,7 @@ export default function Home() {
           {ROLES.map((role, i) => (
             <button
               key={role.id}
-              onClick={() => selectRole(role)}
+              onClick={() => navigate(role.path)}
               className="card p-6 text-left hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 animate-slide-up group"
               style={{ animationDelay: `${i * 80}ms` }}
             >
