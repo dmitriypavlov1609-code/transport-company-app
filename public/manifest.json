@@ -1,0 +1,10 @@
+{
+  "name": "TransPort Pro",
+  "short_name": "TransPort",
+  "description": "Мобильное приложение транспортной компании",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F5F5",
+  "theme_color": "#1A73E8",
+  "icons": []
+}
