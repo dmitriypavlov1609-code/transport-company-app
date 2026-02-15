@@ -51,7 +51,7 @@ export default function Calculator() {
 
   return (
     <div className="space-y-4 animate-fade-in">
-      <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">🧮 Калькулятор стоимости</h2>
+      <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Калькулятор стоимости</h2>
 
       <div className="card overflow-hidden">
         <MapView points={mapPoints} routeGeometry={routeGeometry} height="200px" />
@@ -69,7 +69,6 @@ export default function Calculator() {
           {VEHICLE_TYPES.map(v => (
             <button key={v.id} onClick={() => setVehicleType(v.id)}
               className={`py-2 px-1 rounded-xl text-center transition-all text-xs ${vehicleType === v.id ? 'bg-primary text-white shadow-lg ring-2 ring-primary/30' : 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-100'}`}>
-              <div className="text-lg mb-0.5">{v.icon}</div>
               <div className="font-medium leading-tight">{v.name}</div>
               <div className="text-[10px] mt-0.5 opacity-70">до {v.maxWeight}т</div>
             </button>
@@ -118,7 +117,7 @@ export default function Calculator() {
       </div>
 
       <button onClick={calculate} disabled={!from || !to || loading} className="btn-primary w-full flex items-center justify-center gap-2">
-        {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <>🧮 Рассчитать стоимость</>}
+        {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : 'Рассчитать стоимость'}
       </button>
 
       {result && (
@@ -154,7 +153,7 @@ export default function Calculator() {
               <span>Итого</span><span>{result.total.toLocaleString()} ₽</span>
             </div>
           </div>
-          <button onClick={() => navigate('/client/order')} className="btn-accent w-full">📝 Оформить заказ</button>
+          <button onClick={() => navigate('/client/order')} className="btn-accent w-full">Оформить заказ</button>
         </div>
       )}
     </div>

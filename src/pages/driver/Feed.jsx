@@ -24,8 +24,8 @@ export default function DriverFeed() {
       {/* My active orders */}
       {myOrders.length > 0 && (
         <div>
-          <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-            🚛 Мои рейсы <span className="badge-success">{myOrders.length}</span>
+          <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+            Мои рейсы <span className="badge-success">{myOrders.length}</span>
           </h2>
           {myOrders.map(order => {
             const st = ORDER_STATUSES[order.status];
@@ -34,7 +34,7 @@ export default function DriverFeed() {
                 className="card p-4 w-full text-left mb-2 border-l-4 border-l-primary hover:shadow-lg transition-all">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-primary">{order.id}</span>
-                  <span className={`badge-${st.color}`}>{st.icon} {st.label}</span>
+                  <span className={`badge-${st.color}`}>{st.label}</span>
                 </div>
                 <div className="text-sm text-gray-700 dark:text-gray-300">
                   {order.from.name.split(',')[0]} → {order.to.name.split(',')[0]}
@@ -52,8 +52,8 @@ export default function DriverFeed() {
       {/* Available orders */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            📋 Доступные заказы <span className="badge-info">{availableOrders.length}</span>
+          <h2 className="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+            Доступные заказы <span className="badge-info">{availableOrders.length}</span>
           </h2>
         </div>
 
@@ -75,8 +75,7 @@ export default function DriverFeed() {
             if (isAccepted) {
               return (
                 <div key={order.id} className="card p-6 text-center animate-fade-in">
-                  <div className="text-4xl mb-2">✅</div>
-                  <div className="font-bold text-gray-900 dark:text-white">Заказ принят!</div>
+                  <div className="font-semibold text-gray-900 dark:text-white">Заказ принят!</div>
                   <div className="text-sm text-gray-500 mt-1">Переход к управлению рейсом...</div>
                 </div>
               );
@@ -87,7 +86,7 @@ export default function DriverFeed() {
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold text-primary">{order.id}</span>
-                    <span className="badge-info">{vehicle?.icon} {vehicle?.name}</span>
+                    <span className="badge-info">{vehicle?.name}</span>
                   </div>
                   <span className="text-lg font-bold text-accent">{order.price.toLocaleString()} ₽</span>
                 </div>
@@ -110,17 +109,17 @@ export default function DriverFeed() {
                 </div>
 
                 <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
-                  <span>📦 {order.cargo.type}</span>
-                  <span>⚖️ {order.cargo.weight} т</span>
-                  <span>📐 {order.cargo.volume} м³</span>
+                  <span>{order.cargo.type}</span>
+                  <span>{order.cargo.weight} т</span>
+                  <span>{order.cargo.volume} м³</span>
                 </div>
 
                 <div className="flex gap-2">
                   <button onClick={() => accept(order.id)} className="btn-primary flex-1 py-2 text-sm">
-                    ✅ Принять
+                    Принять
                   </button>
                   <button className="btn-outline flex-1 py-2 text-sm">
-                    💬 Предложить цену
+                    Предложить цену
                   </button>
                 </div>
               </div>

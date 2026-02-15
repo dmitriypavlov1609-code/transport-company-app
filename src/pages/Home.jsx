@@ -5,31 +5,25 @@ const ROLES = [
   {
     id: 'client',
     path: '/client',
-    icon: '📱',
     title: 'Клиент',
     subtitle: 'Заказать перевозку',
     description: 'Калькулятор стоимости, оформление заказа, отслеживание груза в реальном времени',
-    color: 'from-blue-500 to-blue-600',
     features: ['Калькулятор стоимости', 'Отслеживание на карте', 'Онлайн-оплата', 'Документооборот'],
   },
   {
     id: 'driver',
     path: '/driver',
-    icon: '🚛',
     title: 'Водитель',
     subtitle: 'Найти заказ',
     description: 'Лента заказов, навигация, управление рейсом, финансы',
-    color: 'from-orange-500 to-orange-600',
     features: ['Лента заказов', 'Навигация', 'Фотофиксация', 'Вывод средств'],
   },
   {
     id: 'dispatcher',
     path: '/dispatcher',
-    icon: '🖥',
     title: 'Диспетчер',
     subtitle: 'Управление',
     description: 'Дашборд, мониторинг автопарка, аналитика, CRM',
-    color: 'from-emerald-500 to-emerald-600',
     features: ['Мониторинг рейсов', 'Управление автопарком', 'Аналитика', 'CRM'],
   },
 ];
@@ -44,71 +38,83 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <div className="bg-gradient-to-br from-primary to-blue-700 text-white">
-        <div className="max-w-4xl mx-auto px-4 pt-12 pb-16 text-center">
-          <div className="flex justify-end mb-4">
-            <button onClick={() => setDarkMode(!darkMode)} className="text-white/60 hover:text-white p-2 rounded-lg transition-colors">
-              {darkMode ? '☀️' : '🌙'}
+    <div className="min-h-screen flex flex-col bg-surface dark:bg-surface-dark">
+      <div className="bg-primary text-white">
+        <div className="max-w-5xl mx-auto px-6 pt-16 pb-20">
+          <div className="flex justify-end mb-8">
+            <button onClick={() => setDarkMode(!darkMode)} className="text-white/50 hover:text-white p-2 transition-colors">
+              {darkMode ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              )}
             </button>
           </div>
-          <div className="text-6xl mb-4">🚚</div>
-          <h1 className="text-3xl font-bold mb-2">TransPort Pro</h1>
-          <p className="text-blue-200 text-lg">Современная платформа грузоперевозок</p>
-          <div className="flex items-center justify-center gap-6 mt-6 text-sm text-blue-200">
-            <span className="flex items-center gap-1">✅ OSRM маршруты</span>
-            <span className="flex items-center gap-1">✅ Реальные дороги</span>
-            <span className="flex items-center gap-1">✅ GPS трекинг</span>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">TransPort Pro</h1>
+          <p className="text-gray-400 text-base max-w-md">Платформа управления грузоперевозками. Маршрутизация по реальным дорогам, отслеживание в реальном времени.</p>
+          <div className="flex items-center gap-6 mt-8 text-xs text-gray-400">
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              OSRM маршруты
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              Яндекс Карты
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              GPS трекинг
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Role cards */}
-      <div className="max-w-4xl mx-auto px-4 -mt-8 pb-12 w-full">
+      <div className="max-w-5xl mx-auto px-6 -mt-10 pb-16 w-full">
         <div className="grid md:grid-cols-3 gap-4">
           {ROLES.map((role, i) => (
             <button
               key={role.id}
               onClick={() => selectRole(role)}
-              className="card p-6 text-left hover:shadow-xl hover:-translate-y-1 transition-all duration-300 animate-slide-up group"
-              style={{ animationDelay: `${i * 100}ms` }}
+              className="card p-6 text-left hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 animate-slide-up group"
+              style={{ animationDelay: `${i * 80}ms` }}
             >
-              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${role.color} flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform`}>
-                {role.icon}
+              <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
+                  {role.id === 'client' && <><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></>}
+                  {role.id === 'driver' && <><path d="M10 17h4V5l-2-2-2 2v12z"/><path d="M6 17h12v4H6z"/><path d="M2 21h20"/></>}
+                  {role.id === 'dispatcher' && <><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></>}
+                </svg>
               </div>
-              <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1">{role.title}</h2>
-              <p className="text-sm text-primary font-medium mb-2">{role.subtitle}</p>
+              <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-0.5">{role.title}</h2>
+              <p className="text-sm text-accent font-medium mb-2">{role.subtitle}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">{role.description}</p>
               <div className="space-y-1.5">
                 {role.features.map(f => (
-                  <div key={f} className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  <div key={f} className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                     {f}
                   </div>
                 ))}
               </div>
-              <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
-                <span className="text-primary text-sm font-medium group-hover:underline">
-                  Войти как {role.title.toLowerCase()} →
+              <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-700/50">
+                <span className="text-accent text-sm font-medium group-hover:underline">
+                  Войти &rarr;
                 </span>
               </div>
             </button>
           ))}
         </div>
 
-        {/* Stats */}
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: 'Перевозок', value: '12,450+', icon: '📦' },
-            { label: 'Водителей', value: '890', icon: '🚛' },
-            { label: 'Городов', value: '340+', icon: '🏙' },
-            { label: 'Клиентов', value: '3,200+', icon: '👥' },
+            { label: 'Перевозок', value: '12,450+' },
+            { label: 'Водителей', value: '890' },
+            { label: 'Городов', value: '340+' },
+            { label: 'Клиентов', value: '3,200+' },
           ].map(s => (
             <div key={s.label} className="card p-4 text-center">
-              <div className="text-2xl mb-1">{s.icon}</div>
               <div className="text-xl font-bold text-gray-900 dark:text-white">{s.value}</div>
-              <div className="text-xs text-gray-500">{s.label}</div>
+              <div className="text-xs text-gray-500 mt-0.5">{s.label}</div>
             </div>
           ))}
         </div>

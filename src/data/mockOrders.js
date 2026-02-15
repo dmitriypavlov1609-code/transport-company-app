@@ -95,14 +95,14 @@ export const MOCK_ORDERS = [
 ];
 
 export const ORDER_STATUSES = {
-  pending: { label: 'Новый', color: 'info', icon: '📋' },
-  assigned: { label: 'Назначен', color: 'warning', icon: '👤' },
-  loading: { label: 'Погрузка', color: 'warning', icon: '📦' },
-  loaded: { label: 'Загружен', color: 'info', icon: '✅' },
-  in_transit: { label: 'В пути', color: 'success', icon: '🚛' },
-  unloading: { label: 'Выгрузка', color: 'warning', icon: '📦' },
-  delivered: { label: 'Доставлен', color: 'success', icon: '✅' },
-  cancelled: { label: 'Отменён', color: 'danger', icon: '❌' },
+  pending: { label: 'Новый', color: 'info' },
+  assigned: { label: 'Назначен', color: 'warning' },
+  loading: { label: 'Погрузка', color: 'warning' },
+  loaded: { label: 'Загружен', color: 'info' },
+  in_transit: { label: 'В пути', color: 'success' },
+  unloading: { label: 'Выгрузка', color: 'warning' },
+  delivered: { label: 'Доставлен', color: 'success' },
+  cancelled: { label: 'Отменён', color: 'danger' },
 };
 
 export const MOCK_DRIVERS = [

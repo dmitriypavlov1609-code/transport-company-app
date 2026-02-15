@@ -14,7 +14,7 @@ export default function Orders() {
 
   return (
     <div className="space-y-4 animate-fade-in">
-      <h2 className="text-lg font-bold text-gray-900 dark:text-white">📋 Мои заказы</h2>
+      <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Мои заказы</h2>
 
       {/* Filters */}
       <div className="flex gap-2">
@@ -43,7 +43,7 @@ export default function Orders() {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold text-primary">{order.id}</span>
-                  <span className={`badge-${st.color}`}>{st.icon} {st.label}</span>
+                  <span className={`badge-${st.color}`}>{st.label}</span>
                 </div>
                 <span className="text-sm font-bold text-gray-900 dark:text-white">{order.price.toLocaleString()} ₽</span>
               </div>

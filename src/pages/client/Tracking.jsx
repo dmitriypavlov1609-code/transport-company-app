@@ -21,7 +21,7 @@ export default function Tracking() {
   if (!order) {
     return (
       <div className="text-center py-20">
-        <div className="text-4xl mb-4">🔍</div>
+        <div className="text-4xl mb-4 text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mx-auto"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
         <p className="text-gray-500">Заказ не найден</p>
         <button onClick={() => navigate('/client/orders')} className="btn-primary mt-4">К заказам</button>
       </div>
@@ -42,10 +42,10 @@ export default function Tracking() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">{order.id}</h2>
-          <span className={`badge-${st.color}`}>{st.icon} {st.label}</span>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{order.id}</h2>
+          <span className={`badge-${st.color}`}>{st.label}</span>
         </div>
-        <span className="text-2xl font-bold text-primary">{order.price.toLocaleString()} ₽</span>
+        <span className="text-2xl font-semibold text-primary">{order.price.toLocaleString()} ₽</span>
       </div>
 
       {/* Progress bar */}
@@ -63,9 +63,9 @@ export default function Tracking() {
       {/* Tabs */}
       <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
         {[
-          { id: 'map', label: '🗺 Карта' },
-          { id: 'timeline', label: '📋 Статусы' },
-          { id: 'details', label: '📄 Детали' },
+          { id: 'map', label: 'Карта' },
+          { id: 'timeline', label: 'Статусы' },
+          { id: 'details', label: 'Детали' },
         ].map(t => (
           <button key={t.id} onClick={() => setTab(t.id)}
             className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${tab === t.id ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500'}`}>
@@ -108,7 +108,7 @@ export default function Tracking() {
       {tab === 'details' && (
         <div className="space-y-3 animate-fade-in">
           <div className="card p-4">
-            <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">📦 Груз</h3>
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Груз</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between"><span className="text-gray-500">Тип</span><span className="text-gray-900 dark:text-white">{order.cargo.type}</span></div>
               <div className="flex justify-between"><span className="text-gray-500">Вес</span><span className="text-gray-900 dark:text-white">{order.cargo.weight} т</span></div>
@@ -119,25 +119,25 @@ export default function Tracking() {
 
           {order.driver && (
             <div className="card p-4">
-              <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">🚛 Водитель</h3>
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Водитель</h3>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-2xl">👤</div>
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
                 <div className="flex-1">
                   <div className="font-medium text-gray-900 dark:text-white">{order.driver.name}</div>
                   <div className="text-xs text-gray-500">{order.driver.truck}</div>
-                  <div className="flex items-center gap-1 text-xs text-yellow-600 mt-0.5">⭐ {order.driver.rating}</div>
+                  <div className="flex items-center gap-1 text-xs text-yellow-600 mt-0.5">{order.driver.rating}</div>
                 </div>
-                <button className="btn-primary py-2 px-4 text-sm">📞 Звонок</button>
+                <button className="btn-primary py-2 px-4 text-sm">Звонок</button>
               </div>
             </div>
           )}
 
           <div className="card p-4">
-            <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">📄 Документы</h3>
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Документы</h3>
             <div className="space-y-2">
               {['Транспортная накладная', 'Договор-заявка', 'Акт выполненных работ'].map(doc => (
                 <div key={doc} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                  <span className="text-sm text-gray-700 dark:text-gray-300">📄 {doc}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{doc}</span>
                   <button className="text-xs text-primary font-medium">Скачать</button>
                 </div>
               ))}

@@ -1,68 +1,97 @@
 import { useEffect, useRef } from 'react';
 
 export default function MapView({ points = [], routeGeometry, center, zoom = 5, height = '300px', className = '' }) {
+  const containerRef = useRef(null);
   const mapRef = useRef(null);
-  const mapInstanceRef = useRef(null);
-  const layersRef = useRef([]);
+  const objectsRef = useRef(null);
 
   useEffect(() => {
-    if (!mapRef.current || mapInstanceRef.current) return;
-    const L = window.L;
-    if (!L) return;
-    const map = L.map(mapRef.current, { zoomControl: false }).setView(center || [55.75, 37.62], zoom);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap',
-    }).addTo(map);
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
-    mapInstanceRef.current = map;
-    return () => { map.remove(); mapInstanceRef.current = null; };
+    if (!containerRef.current || mapRef.current) return;
+    const ymaps = window.ymaps;
+    if (!ymaps) return;
+
+    ymaps.ready(() => {
+      const map = new ymaps.Map(containerRef.current, {
+        center: center || [55.75, 37.62],
+        zoom,
+        controls: ['zoomControl'],
+      }, {
+        suppressMapOpenBlock: true,
+      });
+      mapRef.current = map;
+      objectsRef.current = new ymaps.GeoObjectCollection();
+      map.geoObjects.add(objectsRef.current);
+    });
+
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.destroy();
+        mapRef.current = null;
+        objectsRef.current = null;
+      }
+    };
   }, []);
 
   useEffect(() => {
-    const L = window.L;
-    const map = mapInstanceRef.current;
-    if (!L || !map) return;
+    const ymaps = window.ymaps;
+    const map = mapRef.current;
+    const collection = objectsRef.current;
+    if (!ymaps || !map || !collection) return;
 
-    layersRef.current.forEach(l => map.removeLayer(l));
-    layersRef.current = [];
-
-    const createIcon = (color, label, size = 32) => L.divIcon({
-      className: '',
-      html: `<div style="background:${color};width:${size}px;height:${size}px;border-radius:50%;border:3px solid white;display:flex;align-items:center;justify-content:center;font-size:${size * 0.4}px;font-weight:700;color:white;box-shadow:0 2px 8px rgba(0,0,0,0.4)">${label}</div>`,
-      iconSize: [size, size],
-      iconAnchor: [size / 2, size / 2],
-    });
-
-    const truckIcon = L.divIcon({
-      className: '',
-      html: `<div style="font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4))">🚛</div>`,
-      iconSize: [32, 32],
-      iconAnchor: [16, 16],
-    });
-
+    collection.removeAll();
     const bounds = [];
 
     points.forEach(p => {
-      const icon = p.type === 'truck'
-        ? truckIcon
-        : createIcon(p.color || '#1A73E8', p.label || '', p.size || 32);
-      const m = L.marker([p.lat, p.lng], { icon }).addTo(map);
-      if (p.popup) m.bindPopup(p.popup);
-      layersRef.current.push(m);
+      let placemark;
+      if (p.type === 'truck') {
+        placemark = new ymaps.Placemark([p.lat, p.lng], {
+          balloonContent: p.popup || '',
+        }, {
+          preset: 'islands#blueDeliveryIcon',
+        });
+      } else {
+        const color = p.color || '#1A73E8';
+        placemark = new ymaps.Placemark([p.lat, p.lng], {
+          balloonContent: p.popup || '',
+          iconContent: p.label || '',
+        }, {
+          iconLayout: ymaps.templateLayoutFactory.createClass(
+            `<div style="
+              background:${color};
+              width:32px;height:32px;
+              border-radius:50%;
+              border:3px solid white;
+              display:flex;align-items:center;justify-content:center;
+              font-size:13px;font-weight:700;color:white;
+              box-shadow:0 2px 8px rgba(0,0,0,0.3);
+              transform:translate(-16px,-16px);
+            ">{{ properties.iconContent }}</div>`
+          ),
+          iconShape: { type: 'Circle', coordinates: [0, 0], radius: 16 },
+        });
+      }
+      collection.add(placemark);
       bounds.push([p.lat, p.lng]);
     });
 
     if (routeGeometry?.coordinates?.length) {
       const coords = routeGeometry.coordinates.map(([lng, lat]) => [lat, lng]);
-      const line = L.polyline(coords, { color: '#1A73E8', weight: 4, opacity: 0.8 }).addTo(map);
-      layersRef.current.push(line);
-      map.fitBounds(line.getBounds(), { padding: [40, 40] });
+      const polyline = new ymaps.Polyline(coords, {}, {
+        strokeColor: '#1A73E8',
+        strokeWidth: 4,
+        strokeOpacity: 0.85,
+      });
+      collection.add(polyline);
+      map.setBounds(polyline.geometry.getBounds(), { checkZoomRange: true, zoomMargin: 40 });
     } else if (bounds.length > 1) {
-      map.fitBounds(bounds, { padding: [40, 40] });
+      map.setBounds(bounds.map(b => [b[0], b[1]]).reduce(
+        (acc, c) => [[Math.min(acc[0][0], c[0]), Math.min(acc[0][1], c[1])], [Math.max(acc[1][0], c[0]), Math.max(acc[1][1], c[1])]],
+        [[90, 180], [-90, -180]]
+      ), { checkZoomRange: true, zoomMargin: 40 });
     } else if (bounds.length === 1) {
-      map.setView(bounds[0], 12);
+      map.setCenter(bounds[0], 12);
     }
   }, [points, routeGeometry]);
 
-  return <div ref={mapRef} className={`w-full rounded-2xl ${className}`} style={{ height }} />;
+  return <div ref={containerRef} className={`w-full ${className}`} style={{ height, borderRadius: '12px', overflow: 'hidden' }} />;
 }

@@ -1,13 +1,13 @@
 // ─── Vehicle types ──────────────────────────────────────────────
 export const VEHICLE_TYPES = [
-  { id: 'tent',    name: 'Тент',           icon: '🚛', maxWeight: 20, maxVolume: 82, pricePerKm: 32 },
-  { id: 'ref',     name: 'Рефрижератор',   icon: '🧊', maxWeight: 20, maxVolume: 76, pricePerKm: 45 },
-  { id: 'board',   name: 'Бортовой',       icon: '🔩', maxWeight: 20, maxVolume: 60, pricePerKm: 28 },
-  { id: 'cont20',  name: 'Контейнер 20\'',  icon: '📦', maxWeight: 24, maxVolume: 33, pricePerKm: 38 },
-  { id: 'cont40',  name: 'Контейнер 40\'',  icon: '📦', maxWeight: 24, maxVolume: 67, pricePerKm: 48 },
-  { id: 'isotherm',name: 'Изотерм',        icon: '🌡', maxWeight: 20, maxVolume: 76, pricePerKm: 38 },
-  { id: 'mega',    name: 'Мега-тент',      icon: '🚚', maxWeight: 20, maxVolume: 100, pricePerKm: 36 },
-  { id: 'small',   name: 'Малотоннажный',  icon: '🚐', maxWeight: 3,  maxVolume: 16, pricePerKm: 22 },
+  { id: 'tent',    name: 'Тент',           maxWeight: 20, maxVolume: 82, pricePerKm: 32 },
+  { id: 'ref',     name: 'Рефрижератор',   maxWeight: 20, maxVolume: 76, pricePerKm: 45 },
+  { id: 'board',   name: 'Бортовой',       maxWeight: 20, maxVolume: 60, pricePerKm: 28 },
+  { id: 'cont20',  name: 'Контейнер 20\'',  maxWeight: 24, maxVolume: 33, pricePerKm: 38 },
+  { id: 'cont40',  name: 'Контейнер 40\'',  maxWeight: 24, maxVolume: 67, pricePerKm: 48 },
+  { id: 'isotherm',name: 'Изотерм',        maxWeight: 20, maxVolume: 76, pricePerKm: 38 },
+  { id: 'mega',    name: 'Мега-тент',      maxWeight: 20, maxVolume: 100, pricePerKm: 36 },
+  { id: 'small',   name: 'Малотоннажный',  maxWeight: 3,  maxVolume: 16, pricePerKm: 22 },
 ];
 
 // ─── Cargo types ────────────────────────────────────────────────
