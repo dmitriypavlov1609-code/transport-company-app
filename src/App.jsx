@@ -18,6 +18,7 @@ import DispatcherDashboard from './pages/dispatcher/Dashboard';
 import DispatcherPlanning from './pages/dispatcher/Planning';
 import OperationsRevenue from './pages/operations/RevenueInsights';
 import OperationsExport from './pages/operations/DataExport';
+import OperationsSlaMargin from './pages/operations/SlaMargin';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminAccounts from './pages/admin/Accounts';
 
@@ -100,6 +101,7 @@ function AppRoutes() {
             }>
               <Route index element={<DispatcherDashboard />} />
               <Route path="planning" element={<DispatcherPlanning />} />
+              <Route path="performance" element={<OperationsSlaMargin />} />
               <Route path="revenue" element={<OperationsRevenue />} />
               <Route path="export" element={<OperationsExport />} />
             </Route>
@@ -111,6 +113,7 @@ function AppRoutes() {
             }>
               <Route index element={<DispatcherDashboard />} />
               <Route path="planning" element={<DispatcherPlanning />} />
+              <Route path="performance" element={<OperationsSlaMargin />} />
               <Route path="revenue" element={<OperationsRevenue />} />
               <Route path="export" element={<OperationsExport />} />
               <Route path="accounts" element={<AdminAccounts />} />
