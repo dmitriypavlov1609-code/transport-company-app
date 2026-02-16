@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const NAV_ITEMS = [
   { path: '/dispatcher', label: 'Обзор', end: true },
+  { path: '/dispatcher/planning', label: 'Планирование' },
   { path: '/dispatcher/revenue', label: 'Выручка' },
   { path: '/dispatcher/export', label: 'Выгрузка' },
 ];
@@ -46,7 +47,7 @@ export default function DispatcherLayout() {
       </main>
 
       <nav className="fixed bottom-3 left-0 right-0 z-50 px-4">
-        <div className="ops-nav max-w-7xl mx-auto rounded-xl p-2 grid grid-cols-3 gap-2">
+        <div className="ops-nav max-w-7xl mx-auto rounded-xl p-2 grid grid-cols-4 gap-2">
           {NAV_ITEMS.map((item) => (
             <NavLink
               key={item.path}

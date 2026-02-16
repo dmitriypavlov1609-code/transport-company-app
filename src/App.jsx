@@ -15,6 +15,7 @@ import DriverActiveRide from './pages/driver/ActiveRide';
 import DriverEarnings from './pages/driver/Earnings';
 import DispatcherLayout from './pages/dispatcher/DispatcherLayout';
 import DispatcherDashboard from './pages/dispatcher/Dashboard';
+import DispatcherPlanning from './pages/dispatcher/Planning';
 import OperationsRevenue from './pages/operations/RevenueInsights';
 import OperationsExport from './pages/operations/DataExport';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -98,6 +99,7 @@ function AppRoutes() {
               </ProtectedRoute>
             }>
               <Route index element={<DispatcherDashboard />} />
+              <Route path="planning" element={<DispatcherPlanning />} />
               <Route path="revenue" element={<OperationsRevenue />} />
               <Route path="export" element={<OperationsExport />} />
             </Route>
@@ -108,6 +110,7 @@ function AppRoutes() {
               </ProtectedRoute>
             }>
               <Route index element={<DispatcherDashboard />} />
+              <Route path="planning" element={<DispatcherPlanning />} />
               <Route path="revenue" element={<OperationsRevenue />} />
               <Route path="export" element={<OperationsExport />} />
               <Route path="accounts" element={<AdminAccounts />} />
