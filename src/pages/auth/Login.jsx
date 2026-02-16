@@ -7,6 +7,7 @@ const DEMO_ROLES = [
   { id: 'driver', label: 'Водитель', description: 'Лента заказов и активный рейс', access: 'OPS-DR' },
   { id: 'dispatcher', label: 'Диспетчер', description: 'Панель мониторинга и управление', access: 'OPS-DP' },
   { id: 'admin', label: 'Администратор', description: 'Финансовая аналитика и экспорт данных', access: 'OPS-AD' },
+  { id: 'marketplace', label: 'Marketplace', description: 'Биржа грузов, ставки и сделки', access: 'OPS-MP' },
 ];
 
 export default function Login() {

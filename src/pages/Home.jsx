@@ -39,6 +39,15 @@ const ROLES = [
     features: ['Финансовый дашборд', 'Выгрузка CSV', 'Управление доступом'],
     code: 'OPS-AD',
   },
+  {
+    id: 'marketplace',
+    path: '/marketplace',
+    title: 'Marketplace',
+    subtitle: 'Биржа грузов и ставок',
+    description: 'Публикация заявок, отклики перевозчиков и контроль сделок в одном интерфейсе.',
+    features: ['Лента заявок', 'Ставки перевозчиков', 'Контроль сделок'],
+    code: 'OPS-MP',
+  },
 ];
 
 const KPI = [
@@ -91,7 +100,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="grid md:grid-cols-3 gap-4">
+        <section className="grid md:grid-cols-3 lg:grid-cols-5 gap-4">
           {ROLES.map((role, i) => (
             <button
               key={role.id}

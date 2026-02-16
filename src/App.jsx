@@ -21,6 +21,10 @@ import OperationsExport from './pages/operations/DataExport';
 import OperationsSlaMargin from './pages/operations/SlaMargin';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminAccounts from './pages/admin/Accounts';
+import MarketplaceLayout from './pages/marketplace/MarketplaceLayout';
+import MarketplaceBoard from './pages/marketplace/Board';
+import MarketplaceBids from './pages/marketplace/Bids';
+import MarketplaceDeals from './pages/marketplace/Deals';
 
 // Global app context
 export const AppContext = createContext();
@@ -117,6 +121,16 @@ function AppRoutes() {
               <Route path="revenue" element={<OperationsRevenue />} />
               <Route path="export" element={<OperationsExport />} />
               <Route path="accounts" element={<AdminAccounts />} />
+            </Route>
+
+            <Route path="/marketplace" element={
+              <ProtectedRoute>
+                <MarketplaceLayout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<MarketplaceBoard />} />
+              <Route path="bids" element={<MarketplaceBids />} />
+              <Route path="deals" element={<MarketplaceDeals />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" />} />
