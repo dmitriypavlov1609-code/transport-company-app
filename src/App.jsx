@@ -15,6 +15,10 @@ import DriverActiveRide from './pages/driver/ActiveRide';
 import DriverEarnings from './pages/driver/Earnings';
 import DispatcherLayout from './pages/dispatcher/DispatcherLayout';
 import DispatcherDashboard from './pages/dispatcher/Dashboard';
+import OperationsRevenue from './pages/operations/RevenueInsights';
+import OperationsExport from './pages/operations/DataExport';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminAccounts from './pages/admin/Accounts';
 
 // Global app context
 export const AppContext = createContext();
@@ -94,6 +98,19 @@ function AppRoutes() {
               </ProtectedRoute>
             }>
               <Route index element={<DispatcherDashboard />} />
+              <Route path="revenue" element={<OperationsRevenue />} />
+              <Route path="export" element={<OperationsExport />} />
+            </Route>
+
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<DispatcherDashboard />} />
+              <Route path="revenue" element={<OperationsRevenue />} />
+              <Route path="export" element={<OperationsExport />} />
+              <Route path="accounts" element={<AdminAccounts />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" />} />

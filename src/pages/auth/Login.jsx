@@ -6,6 +6,7 @@ const DEMO_ROLES = [
   { id: 'client', label: 'Клиент', description: 'Калькулятор, заказы и трекинг', access: 'OPS-CL' },
   { id: 'driver', label: 'Водитель', description: 'Лента заказов и активный рейс', access: 'OPS-DR' },
   { id: 'dispatcher', label: 'Диспетчер', description: 'Панель мониторинга и управление', access: 'OPS-DP' },
+  { id: 'admin', label: 'Администратор', description: 'Финансовая аналитика и экспорт данных', access: 'OPS-AD' },
 ];
 
 export default function Login() {
