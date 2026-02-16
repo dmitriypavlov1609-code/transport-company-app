@@ -2,10 +2,9 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const NAV_ITEMS = [
-  { path: '/driver', label: 'Заказы', end: true, icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
-  { path: '/driver/active', label: 'Рейс', icon: 'M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0' },
-  { path: '/driver/earnings', label: 'Финансы', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
-  { path: '/driver', label: 'Профиль', end: true, icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
+  { path: '/driver', label: 'Лента', end: true, icon: 'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2' },
+  { path: '/driver/active', label: 'Рейс', icon: 'M3 13h14l2 3h2v3h-1a2 2 0 1 1-4 0H8a2 2 0 1 1-4 0H3zm2-6h8v6H5zM13 9h3l2 2v2h-5z' },
+  { path: '/driver/earnings', label: 'Доход', icon: 'M12 1v22M17 5H9a4 4 0 0 0 0 8h6a4 4 0 0 1 0 8H7' },
 ];
 
 export default function DriverLayout() {
@@ -18,40 +17,46 @@ export default function DriverLayout() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-surface dark:bg-surface-dark pb-16">
-      <header className="sticky top-0 z-40 bg-white/95 dark:bg-surface-card-dark/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700/50">
-        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <button onClick={() => navigate('/')} className="text-gray-400 hover:text-gray-600 transition-colors">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <div className="ops-shell pb-24">
+      <header className="sticky top-0 z-40 px-4 pt-4">
+        <div className="ops-header max-w-5xl mx-auto rounded-xl px-4 py-3 text-white flex items-center justify-between">
+          <div className="flex items-center gap-3 min-w-0">
+            <button onClick={() => navigate('/')} className="p-1.5 rounded border border-slate-500/40 hover:bg-white/10 transition-colors">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
             </button>
-            {userProfile?.name && (
-              <span className="text-xs text-gray-400 hidden sm:inline">{userProfile.name}</span>
-            )}
-          </div>
-          <h1 className="text-sm font-semibold text-gray-900 dark:text-white tracking-tight">Кабинет водителя</h1>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs text-gray-500">Онлайн</span>
+            <div className="min-w-0">
+              <p className="ops-chip text-[10px] text-slate-300">driver station</p>
+              <p className="text-sm font-semibold truncate">{userProfile?.name || 'Демо Водитель'}</p>
             </div>
-            <button onClick={handleLogout} className="text-gray-400 hover:text-red-500 transition-colors" title="Выйти">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="ops-chip text-[10px] text-emerald-300 border border-emerald-400/40 rounded px-2 py-1">active</span>
+            <button onClick={handleLogout} className="p-1.5 rounded border border-slate-500/40 hover:bg-white/10 transition-colors" title="Выйти">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             </button>
           </div>
         </div>
       </header>
 
-      <main className="flex-1 max-w-2xl mx-auto w-full px-4 py-4">
+      <main className="max-w-5xl mx-auto px-4 py-4">
         <Outlet />
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-surface-card-dark/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-700/50 z-40">
-        <div className="max-w-2xl mx-auto flex justify-around py-1.5">
-          {NAV_ITEMS.map(item => (
-            <NavLink key={item.path + item.label} to={item.path} end={item.end}
-              className={({ isActive }) => isActive ? 'nav-item-active' : 'nav-item-inactive'}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={item.icon}/></svg>
+      <nav className="fixed bottom-3 left-0 right-0 z-50 px-4">
+        <div className="ops-nav max-w-5xl mx-auto rounded-xl p-2 grid grid-cols-3 gap-2">
+          {NAV_ITEMS.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              end={item.end}
+              className={({ isActive }) =>
+                `ops-nav-item rounded-lg px-3 py-2.5 flex flex-col items-center gap-1 text-xs font-medium ${isActive ? 'ops-nav-item-active' : ''}`
+              }
+            >
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d={item.icon} />
+              </svg>
               <span>{item.label}</span>
             </NavLink>
           ))}

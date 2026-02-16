@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +7,151 @@
   * { -webkit-tap-highlight-color: transparent; }
   body { @apply antialiased text-gray-900 dark:text-gray-100 font-sans; }
   input, select, textarea { @apply outline-none; }
+}
+
+:root {
+  --executive-bg: #f2f4f7;
+  --executive-line: #d4dae3;
+  --executive-card: #ffffff;
+  --executive-card-dark: #111827;
+  --executive-ink: #111827;
+  --executive-muted: #5b6473;
+  --executive-accent: #0f3d8a;
+  --executive-accent-soft: rgba(15, 61, 138, 0.08);
+  --executive-alert: #9a6700;
+}
+
+.executive-bg {
+  background-color: var(--executive-bg);
+  background-image:
+    linear-gradient(rgba(16, 24, 40, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 24, 40, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 10% 10%, rgba(15, 61, 138, 0.12), transparent 35%),
+    radial-gradient(circle at 90% 5%, rgba(20, 83, 45, 0.08), transparent 30%);
+  background-size: 34px 34px, 34px 34px, 100% 100%, 100% 100%;
+}
+
+.executive-panel {
+  background: linear-gradient(160deg, rgba(17, 24, 39, 0.98) 0%, rgba(15, 23, 42, 0.96) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 20px 40px rgba(2, 6, 23, 0.28);
+}
+
+.executive-card {
+  background: var(--executive-card);
+  border: 1px solid var(--executive-line);
+  box-shadow: 0 10px 32px rgba(15, 23, 42, 0.09);
+}
+
+.executive-kpi {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.executive-chip {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.executive-role-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--executive-line);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.executive-role-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #0f3d8a 0%, #0f3d8a 55%, #9a6700 100%);
+  opacity: 0.9;
+}
+
+.executive-role-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(15, 61, 138, 0.3);
+  box-shadow: 0 12px 30px rgba(15, 61, 138, 0.12);
+}
+
+.executive-enter {
+  animation: executive-enter 420ms ease-out both;
+}
+
+.ops-shell {
+  min-height: 100vh;
+  background-color: #eef2f7;
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+.ops-header {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.97) 0%, rgba(30, 41, 59, 0.94) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 0 14px 30px rgba(2, 6, 23, 0.18);
+}
+
+.ops-panel {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #d7dee8;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.ops-soft-card {
+  background: #ffffff;
+  border: 1px solid #d7dee8;
+}
+
+.ops-kpi {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.26);
+}
+
+.ops-chip {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.ops-nav {
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  box-shadow: 0 12px 24px rgba(2, 6, 23, 0.22);
+}
+
+.ops-nav-item {
+  border: 1px solid transparent;
+  color: #cbd5e1;
+  transition: all 160ms ease;
+}
+
+.ops-nav-item:hover {
+  border-color: rgba(148, 163, 184, 0.32);
+  color: #ffffff;
+}
+
+.ops-nav-item-active {
+  border-color: rgba(96, 165, 250, 0.45);
+  color: #ffffff;
+  background: rgba(37, 99, 235, 0.18);
+}
+
+@media (max-width: 768px) {
+  .ops-shell {
+    background-size: 28px 28px;
+  }
+}
+
+@keyframes executive-enter {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @layer components {

@@ -7,26 +7,36 @@ const ROLES = [
     id: 'client',
     path: '/client',
     title: 'Клиент',
-    subtitle: 'Заказать перевозку',
-    description: 'Калькулятор стоимости, оформление заказа, отслеживание груза в реальном времени',
-    features: ['Калькулятор стоимости', 'Отслеживание на карте', 'Онлайн-оплата', 'Документооборот'],
+    subtitle: 'Планирование перевозок',
+    description: 'Расчет стоимости, запуск заказа и контроль статуса в реальном времени.',
+    features: ['Расчет маршрута', 'Онлайн-оформление', 'Контроль статуса'],
+    code: 'OPS-CL',
   },
   {
     id: 'driver',
     path: '/driver',
     title: 'Водитель',
-    subtitle: 'Найти заказ',
-    description: 'Лента заказов, навигация, управление рейсом, финансы',
-    features: ['Лента заказов', 'Навигация', 'Фотофиксация', 'Вывод средств'],
+    subtitle: 'Исполнение рейсов',
+    description: 'Лента доступных заявок, активный рейс и финансовые показатели.',
+    features: ['Лента заявок', 'Навигация', 'Отчет по рейсу'],
+    code: 'OPS-DR',
   },
   {
     id: 'dispatcher',
     path: '/dispatcher',
     title: 'Диспетчер',
-    subtitle: 'Управление',
-    description: 'Дашборд, мониторинг автопарка, аналитика, CRM',
-    features: ['Мониторинг рейсов', 'Управление автопарком', 'Аналитика', 'CRM'],
+    subtitle: 'Операционный контроль',
+    description: 'Мониторинг автопарка, загрузки и SLA в едином дашборде.',
+    features: ['Мониторинг рейсов', 'Управление нагрузкой', 'Контроль SLA'],
+    code: 'OPS-DP',
   },
+];
+
+const KPI = [
+  { label: 'Активных рейсов', value: '148', change: '+12%' },
+  { label: 'Среднее время подачи', value: '18 мин', change: '-6%' },
+  { label: 'Выполнение SLA', value: '97.2%', change: '+1.4%' },
+  { label: 'Свободных машин', value: '64', change: '+9%' },
 ];
 
 export default function Home() {
@@ -34,95 +44,79 @@ export default function Home() {
   const { darkMode, setDarkMode } = useApp();
   const { userProfile } = useAuth();
 
-  // If user has a role, redirect to their dashboard
   if (userProfile?.role) {
-    const roleData = ROLES.find(r => r.id === userProfile.role);
-    if (roleData) {
-      return <Navigate to={roleData.path} />;
-    }
+    const roleData = ROLES.find((r) => r.id === userProfile.role);
+    if (roleData) return <Navigate to={roleData.path} />;
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-surface dark:bg-surface-dark">
-      <div className="bg-primary text-white">
-        <div className="max-w-5xl mx-auto px-6 pt-16 pb-20">
-          <div className="flex justify-end mb-8">
-            <button onClick={() => setDarkMode(!darkMode)} className="text-white/50 hover:text-white p-2 transition-colors">
-              {darkMode ? (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-              )}
+    <div className="min-h-screen executive-bg px-4 py-6 sm:px-6 sm:py-8">
+      <div className="max-w-6xl mx-auto space-y-5 executive-enter">
+        <section className="executive-panel rounded-2xl p-6 sm:p-8 text-white">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="executive-chip text-[11px] text-slate-300">Transport Pro / Operations</p>
+              <h1 className="text-3xl sm:text-4xl font-semibold mt-2 tracking-tight">Центр управления перевозками</h1>
+              <p className="mt-4 text-sm text-slate-300 max-w-2xl">
+                Выберите роль для входа в демо-кабинет и проверьте рабочие сценарии от заказа до мониторинга исполнения.
+              </p>
+            </div>
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="executive-chip text-[11px] text-slate-200 border border-slate-400/40 rounded px-3 py-2 hover:bg-white/10 transition-colors self-start"
+            >
+              {darkMode ? 'Light Theme' : 'Dark Theme'}
             </button>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight mb-2">TransPort Pro</h1>
-          <p className="text-gray-400 text-base max-w-md">Платформа управления грузоперевозками. Маршрутизация по реальным дорогам, отслеживание в реальном времени.</p>
-          <div className="flex items-center gap-6 mt-8 text-xs text-gray-400">
-            <span className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              OSRM маршруты
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              Яндекс Карты
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              GPS трекинг
-            </span>
-          </div>
-        </div>
-      </div>
 
-      <div className="max-w-5xl mx-auto px-6 -mt-10 pb-16 w-full">
-        <div className="grid md:grid-cols-3 gap-4">
+          <div className="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {KPI.map((item) => (
+              <div key={item.label} className="executive-kpi rounded-lg p-3">
+                <p className="executive-chip text-[10px] text-slate-400">{item.label}</p>
+                <div className="flex items-end justify-between mt-1">
+                  <p className="text-lg sm:text-xl font-semibold">{item.value}</p>
+                  <p className="text-xs text-emerald-300">{item.change}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid md:grid-cols-3 gap-4">
           {ROLES.map((role, i) => (
             <button
               key={role.id}
               onClick={() => navigate(role.path)}
-              className="card p-6 text-left hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 animate-slide-up group"
-              style={{ animationDelay: `${i * 80}ms` }}
+              className="executive-role-card rounded-xl p-5 text-left"
+              style={{ animationDelay: `${i * 90}ms` }}
             >
-              <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
-                  {role.id === 'client' && <><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></>}
-                  {role.id === 'driver' && <><path d="M10 17h4V5l-2-2-2 2v12z"/><path d="M6 17h12v4H6z"/><path d="M2 21h20"/></>}
-                  {role.id === 'dispatcher' && <><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></>}
-                </svg>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="executive-chip text-[10px] text-slate-500">{role.code}</p>
+                  <h2 className="text-xl font-semibold text-slate-900 mt-2">{role.title}</h2>
+                  <p className="text-sm text-slate-700 mt-1">{role.subtitle}</p>
+                </div>
+                <span className="executive-chip text-[10px] text-amber-700 bg-amber-50 px-2 py-1 rounded border border-amber-200">Demo</span>
               </div>
-              <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-0.5">{role.title}</h2>
-              <p className="text-sm text-accent font-medium mb-2">{role.subtitle}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">{role.description}</p>
-              <div className="space-y-1.5">
-                {role.features.map(f => (
-                  <div key={f} className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    {f}
+
+              <p className="text-sm text-slate-600 mt-4 leading-relaxed">{role.description}</p>
+
+              <div className="mt-5 space-y-2">
+                {role.features.map((feature) => (
+                  <div key={feature} className="flex items-center gap-2 text-xs text-slate-600">
+                    <span className="w-1.5 h-1.5 rounded-sm bg-slate-500" />
+                    {feature}
                   </div>
                 ))}
               </div>
-              <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-700/50">
-                <span className="text-accent text-sm font-medium group-hover:underline">
-                  Войти &rarr;
-                </span>
+
+              <div className="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between">
+                <span className="text-sm font-medium text-slate-900">Открыть кабинет</span>
+                <span className="executive-chip text-[10px] text-slate-500">Enter</span>
               </div>
             </button>
           ))}
-        </div>
-
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            { label: 'Перевозок', value: '12,450+' },
-            { label: 'Водителей', value: '890' },
-            { label: 'Городов', value: '340+' },
-            { label: 'Клиентов', value: '3,200+' },
-          ].map(s => (
-            <div key={s.label} className="card p-4 text-center">
-              <div className="text-xl font-bold text-gray-900 dark:text-white">{s.value}</div>
-              <div className="text-xs text-gray-500 mt-0.5">{s.label}</div>
-            </div>
-          ))}
-        </div>
+        </section>
       </div>
     </div>
   );

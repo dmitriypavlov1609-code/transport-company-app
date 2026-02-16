@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['IBM Plex Sans', 'Manrope', 'Segoe UI', 'sans-serif'],
       },
       colors: {
         primary: { DEFAULT: '#0F172A', light: '#1E293B', dark: '#020617' },

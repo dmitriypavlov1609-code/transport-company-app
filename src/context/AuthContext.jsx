@@ -1,15 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-  updateProfile,
-} from 'firebase/auth';
-import { auth, googleProvider } from '../utils/firebase';
 
 const AuthContext = createContext();
+const DEMO_SESSION_KEY = 'tp_demo_session';
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -35,36 +27,24 @@ export function AuthProvider({ children }) {
     localStorage.setItem(`tp_profile_${uid}`, JSON.stringify(profile));
   }
 
-  async function register(email, password, name, role) {
-    const result = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(result.user, { displayName: name });
-    const profile = { name, role };
-    saveProfile(result.user.uid, profile);
-    setUserProfile(profile);
-    return result;
-  }
-
-  async function login(email, password) {
-    const result = await signInWithEmailAndPassword(auth, email, password);
-    const profile = loadProfile(result.user.uid);
-    setUserProfile(profile);
-    return result;
-  }
-
-  async function loginWithGoogle(role) {
-    const result = await signInWithPopup(auth, googleProvider);
-    let profile = loadProfile(result.user.uid);
-    if (!profile) {
-      profile = { name: result.user.displayName || 'User', role: role || 'client' };
-      saveProfile(result.user.uid, profile);
-    }
-    setUserProfile(profile);
-    return result;
+  async function loginDemo(role, name) {
+    const demoUser = {
+      uid: `demo-${role}`,
+      email: `demo-${role}@transport.pro`,
+      isDemo: true,
+    };
+    const demoProfile = { name: name || 'Demo User', role };
+    setCurrentUser(demoUser);
+    setUserProfile(demoProfile);
+    saveProfile(demoUser.uid, demoProfile);
+    localStorage.setItem(DEMO_SESSION_KEY, JSON.stringify({ user: demoUser, profile: demoProfile }));
+    return { user: demoUser };
   }
 
   async function logout() {
+    localStorage.removeItem(DEMO_SESSION_KEY);
     setUserProfile(null);
-    return signOut(auth);
+    setCurrentUser(null);
   }
 
   function updateUserProfile(updates) {
@@ -75,26 +55,33 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      if (user) {
-        const profile = loadProfile(user.uid);
-        setUserProfile(profile);
+    try {
+      const sessionRaw = localStorage.getItem(DEMO_SESSION_KEY);
+      if (sessionRaw) {
+        const session = JSON.parse(sessionRaw);
+        setCurrentUser(session.user || null);
+        if (session.user?.uid) {
+          const profile = loadProfile(session.user.uid) || session.profile || null;
+          setUserProfile(profile);
+        } else {
+          setUserProfile(session.profile || null);
+        }
       } else {
+        setCurrentUser(null);
         setUserProfile(null);
       }
-      setLoading(false);
-    });
-    return unsubscribe;
+    } catch {
+      setCurrentUser(null);
+      setUserProfile(null);
+    }
+    setLoading(false);
   }, []);
 
   const value = {
     currentUser,
     userProfile,
     loading,
-    register,
-    login,
-    loginWithGoogle,
+    loginDemo,
     logout,
     updateUserProfile,
   };

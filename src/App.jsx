@@ -2,7 +2,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useState, createContext, useContext } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
 import Home from './pages/Home';
 import ClientLayout from './pages/client/ClientLayout';
 import ClientDashboard from './pages/client/Dashboard';
@@ -59,7 +58,7 @@ function AppRoutes() {
         <div className="min-h-screen bg-surface dark:bg-surface-dark transition-colors">
           <Routes>
             <Route path="/login" element={currentUser ? <Navigate to="/" /> : <Login />} />
-            <Route path="/register" element={currentUser ? <Navigate to="/" /> : <Register />} />
+            <Route path="/register" element={<Navigate to="/login" replace />} />
 
             <Route path="/" element={
               <ProtectedRoute>
